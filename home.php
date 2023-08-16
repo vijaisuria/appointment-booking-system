@@ -10,23 +10,68 @@
       integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
       crossorigin="anonymous"
     />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+        .loading-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .heartbeat-icon {
+            animation: heartbeat 1s infinite;
+            font-size: 100px;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+    </style>
   </head>
   <body>
+    <?php
+      include 'navbar.php';
+    ?>
+    
     <div class="container mt-5 mb-5">
       <div class="d-flex justify-content-between mb-3">
         <span>MIT Campus - Specialist Doctors</span>
-        <button class="btn btn-info add">Past Bookings</button>
+        <button class="btn btn-info add" id="past">Past Bookings</button>
       </div>
       <div class="row g-2" id="doctors-list">
         <!-- Doctor cards will be dynamically inserted here -->
       </div>
     </div>
     <script>
+      const pastButton = document.getElementById('past');
+      pastButton.addEventListener('click', () => {
+        if (sessionStorage.getItem('registerNumber')) {
+          window.location.href = './bookings.php';
+        } else {
+          alert('Please login to see past records');
+          window.location.href = './user.php';
+        }
+      });
+
       // Fetch data from API and populate the doctor cards
       async function fetchAndPopulateDoctors() {
         const response = await fetch("http://localhost:5000/api/schedule");
-        const data = await response.json();
-        const doctorsList = document.getElementById("doctors-list");
+            const data = await response.json();
+            const doctorsList = document.getElementById("doctors-list");
+            const loadingContainer = document.querySelector(".loading-container");
+
+            loadingContainer.style.display = "none"; // Hide the loading spinner
+
 
         data.forEach((doctor) => {
           const doctorCard = `
@@ -59,8 +104,8 @@
       }
 
       document.addEventListener("DOMContentLoaded", () => {
-        fetchAndPopulateDoctors();
-      });
+            fetchAndPopulateDoctors();
+        });
     </script>
   </body>
 </html>
