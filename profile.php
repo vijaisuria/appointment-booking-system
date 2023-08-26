@@ -60,12 +60,11 @@
                   />
                   <div class="mt-3">
                     <h4>John Doe</h4>
-                    <p class="text-secondary mb-1">Full Stack Developer</p>
+                    <p class="text-secondary mb-1">Student</p>
                     <p class="text-muted font-size-sm">
-                      Bay Area, San Francisco, CA
+                      MIT Campus, Anna University
                     </p>
-                    <button class="btn btn-primary">Follow</button>
-                    <button class="btn btn-outline-primary">Message</button>
+                    <button class="btn btn-primary">Edit</button>
                   </div>
                 </div>
               </div>
@@ -181,7 +180,7 @@
                     <h6 class="d-flex align-items-center mb-3">
                       <i class="material-icons text-info mx-2">Patient </i> Health Status
                     </h6>
-                    <small>Web Design</small>
+                    <small>Heart Rate</small>
                     <div class="progress mb-3" style="height: 5px">
                       <div
                         class="progress-bar bg-primary"
@@ -192,7 +191,7 @@
                         aria-valuemax="100"
                       ></div>
                     </div>
-                    <small>Website Markup</small>
+                    <small>Blood Pressure</small>
 
                     <div class="progress mb-3" style="height: 5px">
                       <div
@@ -204,7 +203,7 @@
                         aria-valuemax="100"
                       ></div>
                     </div>
-                    <small>Mobile Template</small>
+                    <small>Oxygen level</small>
                     <div class="progress mb-3" style="height: 5px">
                       <div
                         class="progress-bar bg-primary"
@@ -215,7 +214,7 @@
                         aria-valuemax="100"
                       ></div>
                     </div>
-                    <small>Backend API</small>
+                    <small>Sugar level</small>
                     <div class="progress mb-3" style="height: 5px">
                       <div
                         class="progress-bar bg-primary"
@@ -380,7 +379,7 @@
       };
 
       if (username) {
-        const apiUrl = `http://localhost:5000/api/students/reg/${username}`;
+        const apiUrl = `https://helth-center-api.onrender.com/api/students/reg/${username}`;
 
         fetch(apiUrl)
           .then((response) => response.json())

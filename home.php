@@ -65,7 +65,7 @@
 
       // Fetch data from API and populate the doctor cards
       async function fetchAndPopulateDoctors() {
-        const response = await fetch("http://localhost:5000/api/schedule");
+        const response = await fetch("https://helth-center-api.onrender.com/api/schedule");
             const data = await response.json();
             const doctorsList = document.getElementById("doctors-list");
             const loadingContainer = document.querySelector(".loading-container");

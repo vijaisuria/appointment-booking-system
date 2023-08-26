@@ -7,6 +7,11 @@
   font-family: "Montserrat", sans-serif;
 }
 
+.loading-container,
+.heartbeat-icon {
+  display: none;
+}
+
 section {
   position: relative;
   min-height: 100vh;

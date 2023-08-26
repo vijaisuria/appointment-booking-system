@@ -82,7 +82,7 @@
       const formData = new FormData(form);
 
       try {
-        const response = await fetch('http://localhost:5000/api/students', {
+        const response = await fetch('https://helth-center-api.onrender.com/api/students', {
           method: 'POST',
           body: formData,
         });
@@ -105,7 +105,7 @@
       };
 
       try {
-        const response = await fetch('http://localhost:5000/api/students/login', {
+        const response = await fetch('https://helth-center-api.onrender.com/api/students/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

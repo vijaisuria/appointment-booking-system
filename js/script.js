@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const itemsList = document.getElementById("items-list");
 
   // Fetch data from Express API
-  fetch("http://localhost:5000/api/students")
+  fetch("https://helth-center-api.onrender.com/api/students")
     .then((response) => response.json())
     .then((data) => {
       // Iterate through the fetched items and append to the list

@@ -1,5 +1,5 @@
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
                 <img src="./images/mit-hc-logo.png" alt="Logo" width="40" height="40" class="d-inline-block align-top">
@@ -10,28 +10,28 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="./home.php">Home</a>
+                    <li class="nav-item ">
+                        <a class="nav-link text-light" href="./home.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./book.php">Appointments</a>
+                        <a class="nav-link text-light" href="./bookings.php">Appointments</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./profile.php">Book</a>
+                        <a class="nav-link text-light" href="./book.php">Book</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./profile.php">Prescriptions</a>
+                        <a class="nav-link text-light" href="#" id="prescription">Prescriptions</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./profile.php">Profile</a>
+                        <a class="nav-link text-light" href="./profile.php">Profile</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" id="loginLink" href="./user.php">Login</a>
+                        <a class="nav-link text-light" id="loginLink" href="./user.php">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="logoutLink" href="#">Logout</a>
+                        <a class="nav-link text-light" id="logoutLink" href="#">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -45,6 +45,7 @@
     <script>
         const loginLink = document.getElementById('loginLink');
         const logoutLink = document.getElementById('logoutLink');
+        const prescriptionLink = document.getElementById('prescription');
 
         const registerNumber = sessionStorage.getItem('registerNumber');
         console.log(registerNumber);
@@ -58,6 +59,11 @@
         logoutLink.addEventListener('click', () => {
             sessionStorage.removeItem('registerNumber');
             window.location.href('./user.php');
+        });
+
+        prescriptionLink.addEventListener('click', () => {
+            const registerNumber = sessionStorage.getItem('registerNumber');
+            window.location.href = `https://health-center.vercel.app/user/prescriptions/${registerNumber}`;
         });
     </script>
 

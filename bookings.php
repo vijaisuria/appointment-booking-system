@@ -66,7 +66,7 @@
       async function fetchAndDisplayBookings() {
         const username = sessionStorage.getItem("registerNumber"); // Get username from session
         const response = await fetch(
-          `http://localhost:5000/api/appointment/user/${username}`
+          `https://helth-center-api.onrender.com/api/appointment/user/${username}`
         );
         const data = await response.json();
         const bookingsTableBody = document.getElementById(
@@ -106,7 +106,7 @@
       async function deleteBooking(bookingId) {
         try {
           const response = await fetch(
-            `http://localhost:5000/api/appointment/${bookingId}`,
+            `https://helth-center-api.onrender.com/api/appointment/${bookingId}`,
             {
               method: "DELETE",
             }
