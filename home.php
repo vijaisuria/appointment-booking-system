@@ -1,152 +1,125 @@
+<?php
+session_start();
+if (!isset($_SESSION['registerNumber'])) {
+  $_SESSION['redirectAlert'] = true;
+  header("Location: index.php");
+  exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Home | MIT-HC</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-    crossorigin="anonymous"></script>
-  <style>
-    #css3-spinner-svg-pulse-wrapper {
-      display: none;
-      position: absolute;
-      overflow: hidden;
-      width: 260px;
-      height: 210px;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: transparent;
-      animation: none;
-      -webkit-animation: none;
-    }
-
-    #css3-spinner-svg-pulse {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    #css3-spinner-pulse {
-      stroke-dasharray: 281;
-      -webkit-animation: dash 5s infinite linear forwards;
-    }
-
-    /*Animation*/
-    @-webkit-keyframes dash {
-      from {
-        stroke-dashoffset: 814;
-      }
-
-      to {
-        stroke-dashoffset: -814;
-      }
-    }
-
-    @keyframes dash {
-      from {
-        stroke-dashoffset: 814;
-      }
-
-      to {
-        stroke-dashoffset: -814;
-      }
-    }
-
-    #spinner-container {
-      background-color: rgba(0, 0, 0, 0.5);
-      position: absolute;
-      z-index: 1000;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
+  <?php include './includes/navbar.php'; ?>
+
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-3 mb-2">
+        <div class="card bg-primary text-white">
+          <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-user"></i> Profile</h5>
+            <p class="card-text">View and update your profile information.</p>
+            <a href="./profile.php" class="btn btn-light">Go to Profile</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-2">
+        <div class="card bg-success text-white">
+          <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-calendar-check"></i> Appointments</h5>
+            <p class="card-text">Manage your appointments and view upcoming ones.</p>
+            <a href="./bookings.php" class="btn btn-light">Go to Appointments</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-2">
+        <div class="card bg-info text-white">
+          <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-book"></i> Booking</h5>
+            <p class="card-text">Book appointments with healthcare providers.</p>
+            <a href="./schedule.php" class="btn btn-light">Go to Booking</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-2">
+        <div class="card bg-warning text-white">
+          <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-clock"></i> Schedule</h5>
+            <p class="card-text">Give us Feedback and suggestion to grow more</p>
+            <a href="./feedback.php" class="btn btn-light">Go to Contact</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-md-6 mb-2">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Latest News & Announcements</h5>
+            <marquee behavior="scroll" id="marquee" direction="up" scrollamount="3" style="height: 200px;">
+              <?php
+              $eventData = file_get_contents('event.txt');
+              echo nl2br($eventData);
+              ?>
+            </marquee>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Feedback Form</h5>
+            <form>
+              <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username">
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email">
+              </div>
+              <div class="mb-3">
+                <label for="subject" class="form-label">Subject</label>
+                <input type="text" class="form-control" id="subject" name="subject">
+              </div>
+              <div class="mb-3">
+                <label for="message" class="form-label">Message</label>
+                <textarea class="form-control" id="message" name="message" rows="4"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <?php
-  include 'navbar.php';
+  include_once './includes/footer.php';
   ?>
-  <div id="spinner-container">
-    <div id='css3-spinner-svg-pulse-wrapper'>
-      <svg id='css3-spinner-svg-pulse' version='1.2' height='210' width='550' xmlns='http://www.w3.org/2000/svg'
-        viewport='0 0 60 60' xmlns:xlink='http://www.w3.org/1999/xlink'>
-        <path id='css3-spinner-pulse' stroke='#DE6262' fill='none' stroke-width='2' stroke-linejoin='round'
-          d='M0,90L250,90Q257,60 262,87T267,95 270,88 273,92t6,35 7,-60T290,127 297,107s2,-11 10,-10 1,1 8,-10T319,95c6,4 8,-6 10,-17s2,10 9,11h210' />
-      </svg>
-    </div>
-  </div>
-  <div class="container mt-5 mb-5">
-    <div class="d-flex justify-content-between mb-3">
-      <h2>MIT Campus - Specialist Doctors</h2>
-      <button class="btn btn-info add" id="past">Past Bookings</button>
-    </div>
-    <div class="row g-2" id="doctors-list">
-      <!-- Doctor cards will be dynamically inserted here -->
-    </div>
-  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
   <script>
-    const pastButton = document.getElementById('past');
-    pastButton.addEventListener('click', () => {
-      if (sessionStorage.getItem('registerNumber')) {
-        window.location.href = './bookings.php';
-      } else {
-        alert('Please login to see past records');
-        window.location.href = './';
-      }
+    var marquee = document.getElementById('marquee');
+
+    // Pause scrolling on hover
+    marquee.addEventListener('mouseover', function () {
+      this.stop();
     });
 
-    // Fetch data from API and populate the doctor cards
-    async function fetchAndPopulateDoctors() {
-      const loadingSpinner = document.getElementById('css3-spinner-svg-pulse-wrapper');
-      loadingSpinner.style.display = 'block';
-
-      const response = await fetch("https://helth-center-api.onrender.com/api/schedule");
-      const data = await response.json();
-      const doctorsList = document.getElementById("doctors-list");
-
-      //const blurContainer = document.getElementById('blur-container');
-      //blurContainer.style.display = 'block';
-
-      data.forEach((doctor) => {
-        const doctorCard = `
-          <div class="col-md-3">
-            <div class="card p-2 py-3 text-center">
-              <div class="img mb-2">
-                <img src="https://img.freepik.com/premium-vector/doctor-profile-with-medical-service-icon_617655-48.jpg?w=2000" width="70" class="rounded-circle">
-              </div>
-
-              <h5 class="mb-0">${doctor.specialty}</h5>
-             
-
-              <div class="duration-day mt-2">
-                <p>
-                    <strong>Duration:</strong> ${doctor.startTime} - ${doctor.endTime}
-                    <br />
-                    <strong>Day:</strong> ${doctor.day}
-                </p>
-              </div>
-
-              <div class="mt-4 apointment">
-                <button class="btn btn-success text-uppercase">Book Appointment</button>
-              </div>
-            </div>
-          </div>
-        `;
-
-        doctorsList.innerHTML += doctorCard;
-      });
-      loadingSpinner.style.display = 'none';
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      fetchAndPopulateDoctors();
+    // Resume scrolling when not hovering
+    marquee.addEventListener('mouseout', function () {
+      this.start();
     });
   </script>
 </body>

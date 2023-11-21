@@ -118,13 +118,6 @@
 
     const registerNumber = sessionStorage.getItem('registerNumber');
 
-    if (registerNumber) {
-      loginLink.style.display = 'none';
-    } else {
-      alert("Please login to continue!")
-      window.location.href = '../';
-      logoutLink.style.display = 'none';
-    }
 
     logoutLink.addEventListener('click', () => {
       sessionStorage.removeItem('registerNumber');

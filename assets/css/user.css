@@ -80,7 +80,9 @@ section .container .user .formBx form h2 {
   color: #0a0a0a;
 }
 
-section .container .user .formBx form input {
+section .container .user .formBx form input,
+section .container .user .formBx form select,
+section .container .user .formBx form option {
   position: relative;
   width: 100%;
   padding: 10px;
@@ -117,6 +119,12 @@ section .container .user .formBx form .signup {
 }
 
 section .container .user .formBx form .signup a {
+  font-weight: 600;
+  text-decoration: none;
+  color: #677eff;
+}
+
+section .container .user .formBx form span {
   font-weight: 600;
   text-decoration: none;
   color: #677eff;

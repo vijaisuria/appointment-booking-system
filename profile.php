@@ -90,7 +90,7 @@
 
 <body>
   <?php
-  include 'navbar.php';
+  include 'includes/navbar.php';
   ?>
   <div id="blur-container"></div>
 
@@ -114,8 +114,8 @@
                 <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle"
                   width="150" />
                 <div class="mt-3">
-                  <h4>John Doe</h4>
-                  <p class="text-secondary mb-1">Student</p>
+                  <h4 class="name"></h4>
+                  <p class="text-secondary mb-1" id="userType">Student</p>
                   <p class="text-muted font-size-sm">
                     MIT Campus, Anna University
                   </p>
@@ -163,7 +163,7 @@
                 <div class="col-sm-3">
                   <h6 class="mb-0">Full Name</h6>
                 </div>
-                <div class="col-sm-9 text-secondary" id="name"></div>
+                <div class="col-sm-9 text-secondary name"></div>
               </div>
               <hr />
               <div class="row">
@@ -182,10 +182,16 @@
               <hr />
               <div class="row">
                 <div class="col-sm-3">
-                  <h6 class="mb-0">Reesidence</h6>
+                  <h6 class="mb-0">Gender</h6>
                 </div>
-                <div class="col-sm-9 text-secondary">
-                  Hosteller / Dayscholar
+                <div class="col-sm-9 text-secondary" id="gender"></div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Residence</h6>
+                </div>
+                <div class="col-sm-9 text-secondary" id="residence">
                 </div>
               </div>
               <hr />
@@ -370,7 +376,7 @@
 
   <script>
     const profileContent = document.getElementById("profileContent");
-
+    const userType = sessionStorage.getItem("loginType");
     profileContent.style.display = "none";
 
     const getIndianTime = (date) => {
@@ -401,21 +407,27 @@
 
           const fullName = data.name;
           const dateOfBirth = data.dob;
-          // const residence = data.residence; 
+          const residence = data.residence;
           const department = data.department;
+          const gender = data.gender;
 
 
-          const fullNameElement = document.getElementById("name");
+          const fullNameElement = document.getElementsByClassName("name");
           const dateOfBirthElement = document.getElementById("dob");
-          // const residenceElement = document.getElementById('name');
+          const genderElement = document.getElementById("gender");
+          const residenceElement = document.getElementById('residence');
           const departmentElement = document.getElementById("dept");
           const usernameElement = document.getElementById("username");
+          const userTypeElement = document.getElementById("userType");
 
-          fullNameElement.textContent = fullName || "N/A";
+          fullNameElement[0].textContent = fullName || "N/A";
+          fullNameElement[1].textContent = fullName || "N/A";
           dateOfBirthElement.textContent = getIndianTime(dateOfBirth) || "N/A";
-          // residenceElement.textContent = residence || 'N/A';
+          residenceElement.textContent = residence || 'N/A';
+          genderElement.textContent = gender || "N/A";
           departmentElement.textContent = department || "N/A";
           usernameElement.textContent = username || "N/A";
+          userTypeElement.textContent = userType || "N/A";
         })
         .catch((error) => {
           console.error("Error:", error);
