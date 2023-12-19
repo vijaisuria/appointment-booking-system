@@ -28,7 +28,6 @@
             <ul class="navbar-nav">
                 <?php
                 session_start();
-                echo "<script>console.log('Navbar-1: " . isset($_SESSION['registerNumber']) . "');</script>";
                 if (isset($_SESSION['registerNumber'])) {
                     // If the user is logged in, show the Logout link
                     echo '

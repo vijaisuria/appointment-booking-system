@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($row['password'] == $password) {
                 echo "Student authentication successful!";
                 $_SESSION['registerNumber'] = $registerNumber;
-                $_SESSION['user'] = "student";
+                $_SESSION['user'] = $table;
                 header("Location: ../home.php");
             } else {
                 $_SESSION['alert'] = '2';

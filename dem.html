@@ -13,10 +13,58 @@
 </head>
 
 <body>
-    <div class="alert alert-danger alert-dismissible fade show w-lg-25 float-end">
-        <strong>Error!</strong> A problem has been occurred while submitting your data.
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="time-slot available">2:00 PM - 3:00 PM</div>
+                <div class="time-slot crowded">3:00 PM - 4:00 PM</div>
+                <div class="time-slot available">4:00 PM - 5:00 PM</div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="time-slot available">5:00 PM - 6:00 PM</div>
+                <div class="time-slot crowded">6:00 PM - 7:00 PM</div>
+                <div class="time-slot available">7:00 PM - 8:00 PM</div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="time-slot available">8:00 PM - 9:00 PM</div>
+                <div class="time-slot unavailable">9:00 PM - 10:00 PM</div>
+                <div class="time-slot available">10:00 PM - 11:00 PM</div>
+            </div>
+        </div>
     </div>
+
+    <style>
+        .time-slot {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        .available {
+            background-color: #8bc34a;
+            color: #fff;
+        }
+
+        .crowded {
+            background-color: #ffc107;
+            color: #fff;
+        }
+
+        .unavailable {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .col-md-4 {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
 </body>
 
 </html>

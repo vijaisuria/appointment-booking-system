@@ -122,6 +122,21 @@ if (!isset($_SESSION['registerNumber'])) {
       this.start();
     });
   </script>
+  <script>
+    document.getElementById('prescription').addEventListener('click', function (event) {
+      event.preventDefault();
+      <?php
+      if (isset($_SESSION['registerNumber'])) {
+        // If the user is logged in, redirect to the specific URL
+        echo 'window.open("https://health-center.vercel.app/student/prescriptions/' . $_SESSION['registerNumber'] . '", "_blank");';
+      } else {
+        $_SESSION['redirectAlert'] = true;
+        header("Location: ../index.php");
+        exit();
+      }
+      ?>
+    });
+  </script>
 </body>
 
 </html>

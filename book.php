@@ -90,8 +90,8 @@ if (!isset($_SESSION['registerNumber'])) {
         }
 
         .form-container {
-            padding: 1rem;
             height: 100vh;
+            padding: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -115,6 +115,60 @@ if (!isset($_SESSION['registerNumber'])) {
                 padding: 1rem;
 
             }
+        }
+
+        .error {
+            color: red !important;
+            font-size: 14px;
+            font-weight: bolder;
+        }
+
+        @media (max-width: 767px) {
+            .error {
+                font-size: 14px;
+            }
+        }
+    </style>
+
+    <style>
+        .slot-card {
+            margin-bottom: 10px;
+        }
+
+        @media (min-width: 768px) {
+            .slot-card {
+                margin-right: 15px;
+            }
+
+            .slot-card:nth-child(3n) {
+                margin-right: 0;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .slot-card {
+                width: 100%;
+            }
+        }
+
+        .available {
+            background-color: green;
+        }
+
+        .not-available {
+            background-color: red;
+        }
+
+        .high-demand {
+            background-color: #ffc107;
+        }
+
+
+
+        .slot-card {
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
         }
     </style>
 </head>
@@ -155,7 +209,7 @@ if (!isset($_SESSION['registerNumber'])) {
                     <input type="date" class="form-control mb-3" id="appointmentDate" placeholder="Date of Appointment">
                 </div>
                 <div class="form-group col-lg-6 col-12">
-                    <label for="speciality">Speciality:</label>
+                    <label for="speciality">Speciality: <span class="error">First select the date**</span></label>
                     <select class="form-control mb-3" id="speciality" name="speciality" required>
                         <!-- Options will be dynamically loaded here -->
                     </select>
@@ -164,20 +218,38 @@ if (!isset($_SESSION['registerNumber'])) {
                     <button type="button" id="checkSlots" class="btn btn-success w-100 mt-4" style="height: 36px">Check
                         Slots</button>
                 </div>
+
                 <!--
-                <div class="form-group col-lg-6 col-12">
-                    <label for="appointmentTime">Select Time Slot:</label>
-                    <select class="form-control mb-3" id="appointmentTime" name="appointmentTime" required>
-                        <option value="1">4:00 PM - 4:15 PM</option>
-                        <option value="2">4:15 PM - 4:30 PM</option>
-                        <option value="3">4:30 PM - 4:45 PM</option>
-                        <option value="4">4:45 PM - 5:00 PM</option>
-                        <option value="5">5:00 PM - 5:15 PM</option>
-                        <option value="6">5:15 PM - 5:30 PM</option>
-                        <option value="7">5:30 PM - 5:45 PM</option>
-                        <option value="8">5:45 PM - 6:00 PM</option>
-                    </select>
-                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="slot-card available">2.00 - 3.00</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="slot-card not-available">3.00 - 4.00</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="slot-card high-demand">4.00 - 5.00</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="slot-card available">2.00 - 3.00</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="slot-card not-available">3.00 - 4.00</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="slot-card high-demand">4.00 - 5.00</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="slot-card available">2.00 - 3.00</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="slot-card not-available">3.00 - 4.00</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="slot-card high-demand">4.00 - 5.00</div>
+                    </div>         
+            </div>
     -->
                 <div class="form-group col-lg-6 col-12">
                     <label for="appointmentTime">Select Time Slot:</label>
@@ -185,16 +257,18 @@ if (!isset($_SESSION['registerNumber'])) {
                         <!-- Available time slots will be populated here -->
                     </select>
                 </div>
+                <!--
                 <div class="form-group col-lg-6 col-12">
                     <label for="issueType">Issue Type:</label>
                     <select class="form-control mb-3" id="issueType" name="issueType" required>
                         <option value="Consultation">Consultation</option>
                         <option value="Procedure">Procedure</option>
-                        <!-- Add more issue type options here -->
                     </select>
                 </div>
+                -->
                 <div class="form-group col-lg-6 col-12">
-                    <label for="issueType">Service Required</label>
+                    <label for="issueType">Service Required <span class="error">First select the
+                            speciality**</span></label>
                     <select class="form-control mb-3" id="issueType" name="issueType" required>
                         <option value="Consultation">Consultation</option>
                         <option value="Procedure">Procedure</option>
@@ -233,8 +307,7 @@ if (!isset($_SESSION['registerNumber'])) {
                         appointmentDate: selectedDate
                     },
                     success: function (response) {
-                        $('#speciality').html(response); // Update the dropdown with fetched specialists
-                        console.log(response);
+                        $('#speciality').html(response);
                     }
                 });
             });
@@ -297,7 +370,6 @@ if (!isset($_SESSION['registerNumber'])) {
                                     selectedSpeciality: selectedSpeciality
                                 },
                                 success: function (slots) {
-                                    console.log(slots);
                                     $('#appointmentTime').html(slots); // Populate available time slots
                                 }
                             });

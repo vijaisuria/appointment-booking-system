@@ -1,10 +1,11 @@
-<script>
-  const username = sessionStorage.getItem("registerNumber");
-  if (!username) {
-    alert("Please login to continue..")
-    window.location.href = "./";
-  }
-</script>
+<?php
+session_start();
+if (!isset($_SESSION['registerNumber'])) {
+  $_SESSION['redirectAlert'] = true;
+  header("Location: index.php");
+  exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,97 +13,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>User Profile</title>
-  <link rel="stylesheet" href="./css/profile.css" />
+  <link rel="stylesheet" href="assets/css/profile.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
     crossorigin="anonymous"></script>
-  <style>
-    #css3-spinner-svg-pulse-wrapper {
-      display: block;
-      position: absolute;
-      overflow: hidden;
-      width: 260px;
-      height: 210px;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: transparent;
-      animation: none;
-      -webkit-animation: none;
-    }
-
-    #css3-spinner-svg-pulse {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    #css3-spinner-pulse {
-      stroke-dasharray: 281;
-      -webkit-animation: dash 5s infinite linear forwards;
-    }
-
-    @-webkit-keyframes dash {
-      from {
-        stroke-dashoffset: 814;
-      }
-
-      to {
-        stroke-dashoffset: -814;
-      }
-    }
-
-    @keyframes dash {
-      from {
-        stroke-dashoffset: 814;
-      }
-
-      to {
-        stroke-dashoffset: -814;
-      }
-    }
-
-    #spinner-container {
-      background-color: rgba(0, 0, 0, 0.5);
-      position: fixed;
-      z-index: 1000;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    #blur-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      filter: blur(5px);
-      display: block;
-      z-index: 999;
-    }
-  </style>
 </head>
 
 <body>
   <?php
   include 'includes/navbar.php';
   ?>
-  <div id="blur-container"></div>
 
-  <div id="spinner-container">
-    <div id='css3-spinner-svg-pulse-wrapper'>
-      <svg id='css3-spinner-svg-pulse' version='1.2' height='210' width='550' xmlns='http://www.w3.org/2000/svg'
-        viewport='0 0 60 60' xmlns:xlink='http://www.w3.org/1999/xlink'>
-        <path id='css3-spinner-pulse' stroke='#DE6262' fill='none' stroke-width='2' stroke-linejoin='round'
-          d='M0,90L250,90Q257,60 262,87T267,95 270,88 273,92t6,35 7,-60T290,127 297,107s2,-11 10,-10 1,1 8,-10T319,95c6,4 8,-6 10,-17s2,10 9,11h210' />
-      </svg>
-    </div>
-  </div>
 
   <div class="container" id="profileContent">
     <div class="main-body">
@@ -133,7 +56,7 @@
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
               </div>
-              <form>
+              <form id="passwordForm">
                 <div class="row">
                   <div class="form-group">
                     <label for="password">Password</label>
@@ -144,8 +67,8 @@
 
                 <div class="row mt-2">
                   <div class="form-group">
-                    <label for="condirmPassword">Confirm Password</label>
-                    <input type="text" class="form-control" id="condirmPassword" placeholder="Retype Password" />
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" placeholder="Retype Password" />
                   </div>
                 </div>
 
@@ -153,6 +76,7 @@
                   Submit
                 </button>
               </form>
+
             </div>
           </div>
         </div>
@@ -373,68 +297,44 @@
       </div>
     </div>
   </div>
-
   <script>
-    const profileContent = document.getElementById("profileContent");
-    const userType = sessionStorage.getItem("loginType");
-    profileContent.style.display = "none";
+    document.getElementById('passwordForm').addEventListener('submit', function (event) {
+      event.preventDefault();
 
-    const getIndianTime = (date) => {
-      const utcDate = new Date(date);
-      if (isNaN(utcDate)) return "";
-      const utcOffset = 5.5; // India's UTC offset is 5 hours and 30 minutes ahead of UTC.
-      const indianTime = new Date(
-        utcDate.getTime() + utcOffset * 60 * 60 * 1000
-      );
-      return (
-        indianTime.toISOString().slice(0, 10)
-      );
-    };
+      let password = document.getElementById('password').value;
+      let confirmPassword = document.getElementById('confirmPassword').value;
 
-    if (username) {
-      const apiUrl = `https://helth-center-api.onrender.com/api/students/reg/${username}`;
+      // Password validation
+      if (password !== confirmPassword) {
+        document.getElementById('passworderror').innerText = "Passwords do not match.";
+        return;
+      }
 
-      fetch(apiUrl)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Success:", data);
-          const loadingSpinner = document.getElementById('css3-spinner-svg-pulse-wrapper');
-          const blurContainer = document.getElementById('blur-container');
+      // If passwords match, proceed with updating the password
+      let registerNumber = "<?php echo $_SESSION['registerNumber']; ?>";
 
-          loadingSpinner.style.display = 'none';
-          blurContainer.style.display = 'none';
-          profileContent.style.display = "block";
-
-          const fullName = data.name;
-          const dateOfBirth = data.dob;
-          const residence = data.residence;
-          const department = data.department;
-          const gender = data.gender;
-
-
-          const fullNameElement = document.getElementsByClassName("name");
-          const dateOfBirthElement = document.getElementById("dob");
-          const genderElement = document.getElementById("gender");
-          const residenceElement = document.getElementById('residence');
-          const departmentElement = document.getElementById("dept");
-          const usernameElement = document.getElementById("username");
-          const userTypeElement = document.getElementById("userType");
-
-          fullNameElement[0].textContent = fullName || "N/A";
-          fullNameElement[1].textContent = fullName || "N/A";
-          dateOfBirthElement.textContent = getIndianTime(dateOfBirth) || "N/A";
-          residenceElement.textContent = residence || 'N/A';
-          genderElement.textContent = gender || "N/A";
-          departmentElement.textContent = department || "N/A";
-          usernameElement.textContent = username || "N/A";
-          userTypeElement.textContent = userType || "N/A";
+      fetch('actions/update_password.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `registerNumber=${registerNumber}&password=${password}`,
+      })
+        .then(response => {
+          if (response.ok) {
+            // Password updated successfully
+            alert('Password updated successfully!');
+            // You might want to redirect or perform additional actions here
+          } else {
+            // Handle update failure
+            alert('Failed to update password.');
+          }
         })
-        .catch((error) => {
-          console.error("Error:", error);
+        .catch(error => {
+          console.error('Error:', error);
         });
-    } else {
-      console.error("Username not found in session storage");
-    }
+    });
+
   </script>
 </body>
 

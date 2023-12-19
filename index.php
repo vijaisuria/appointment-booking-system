@@ -278,6 +278,22 @@ if (isset($_SESSION['registerNumber'])) {
             }
         });
     </script>
+    <script>
+        document.getElementById('prescription').addEventListener('click', function (event) {
+            event.preventDefault();
+            <?php
+            session_start();
+            if (isset($_SESSION['registerNumber'])) {
+                echo 'window.open("https://health-center.vercel.app/student/prescriptions/' . $_SESSION['registerNumber'] . '", "_blank");';
+            } else {
+                echo "alert('Please login to view your prescriptions);";
+                echo "console.log('invalid');";
+                echo 'window.location.href = "index.php";';
+                exit();
+            }
+            ?>
+        });
+    </script>
     <?php
     unset($_SESSION['alert']);
     ?>
