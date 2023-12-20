@@ -1,0 +1,91 @@
+{
+  "deputy_director": {
+    "name": "Dr. John Doe",
+    "title": "Deputy Director",
+    "contact": "email@example.com",
+    "phone": "123-456-7890"
+  },
+  "doctor_schedules": [
+    {
+      "doctor_name": "Dr. Smith",
+      "available_days": {
+        "Monday": true,
+        "Tuesday": false,
+        "Wednesday": true,
+        "Thursday": false,
+        "Friday": true
+      }
+    },
+    {
+      "doctor_name": "Dr. Johnson",
+      "available_days": {
+        "Monday": false,
+        "Tuesday": true,
+        "Wednesday": true,
+        "Thursday": true,
+        "Friday": false
+      }
+    }
+  ],
+  "doctors_staffs": [
+    {
+      "name": "Dr. X",
+      "speciality": "General Medicine",
+      "responsibility": "General Medicine",
+      "working_hours": {
+        "Monday": "9 AM - 5 PM",
+        "Tuesday": "10 AM - 6 PM",
+        "Wednesday": "9 AM - 5 PM",
+        "Thursday": "Off",
+        "Friday": "9 AM - 1 PM"
+      },
+      "education_qualification": "MD, MBBS",
+      "handles_dental_patients": false
+    },
+    {
+      "name": "Dr. Y",
+      "speciality": "Dentist",
+      "responsibility": "Dentist",
+      "working_hours": {
+        "Monday": "10 AM - 4 PM",
+        "Tuesday": "9 AM - 3 PM",
+        "Wednesday": "Off",
+        "Thursday": "9 AM - 5 PM",
+        "Friday": "9 AM - 5 PM"
+      },
+      "education_qualification": "DDS, MDS",
+      "handles_dental_patients": true
+    },
+    {
+      "name": "Dr. ABC",
+      "speciality": "Cardiology",
+      "responsibility": "Cardiology",
+      "working_hours": {
+        "Monday": "9 AM - 6 PM",
+        "Tuesday": "9 AM - 6 PM",
+        "Wednesday": "9 AM - 6 PM",
+        "Thursday": "9 AM - 6 PM",
+        "Friday": "9 AM - 6 PM"
+      },
+      "education_qualification": "MD, MBBS, PhD",
+      "handles_dental_patients": false
+    }
+  ],
+  "other_staffs": [
+    {
+      "name": "Ambulance Driver",
+      "responsibility": "Ambulance Driver",
+      "contact_number": "123-456-7890"
+    },
+    {
+      "name": "Nurse",
+      "responsibility": "Nurse",
+      "contact_number": "123-456-7890"
+    },
+    {
+      "name": "Receptionist",
+      "responsibility": "Receptionist",
+      "contact_number": "123-456-7890"
+    }
+  ]
+}
