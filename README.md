@@ -1,4 +1,5 @@
-# College Health Center Appointment Booking System
+# Health Center Appointment Booking System
+![Cover image](assets/images/Appointment-Booking-System.png)
 
 This appointment booking system is designed specifically for our college health center to streamline the process of scheduling and managing appointments for students and staff. Built using PHP, HTML, Bootstrap, and MySQL as the database, it provides a user-friendly interface and efficient functionalities.
 
