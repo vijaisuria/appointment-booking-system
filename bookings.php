@@ -84,6 +84,17 @@ if (!isset($_SESSION['registerNumber'])) {
       display: block;
       z-index: 999;
     }
+
+    .btn-action {
+      background-color: transparent;
+      border: none;
+      padding: 0;
+    }
+
+    .btn-action img {
+      width: 30px;
+
+    }
   </style>
 </head>
 
@@ -109,70 +120,75 @@ if (!isset($_SESSION['registerNumber'])) {
 
   <div class="container mt-5">
     <h2>Past Bookings</h2>
-    <table class="table table-bordered responsive table-striped">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Register Number</th>
-          <th>Date</th>
-          <th>Speciality</th>
-          <th>Time Slot</th>
-          <th>Start Time</th>
-          <th>End Time</th>
-          <th>Issue</th>
-          <th>Details</th>
-          <th>Staus</th>
-          <th>Bk. Date</th>
-          <th>Links</th>
-        </tr>
-      </thead>
-      <tbody id="bookings-table-body">
-        <?php
-        $registerNumber = $_SESSION['registerNumber'];
-        $query = "SELECT * FROM Appointment WHERE registerNumber = '$registerNumber'";
-        $result = $conn->query($query);
+    <div class="table-responsive">
+      <table class="table table-bordered responsive table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Register Number</th>
+            <th>Date</th>
+            <th>Speciality</th>
+            <th>Time Slot</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Issue</th>
+            <th>Details</th>
+            <th>Staus</th>
+            <th>Bk. Date</th>
+            <th>Links</th>
+          </tr>
+        </thead>
+        <tbody id="bookings-table-body">
+          <?php
+          $registerNumber = $_SESSION['registerNumber'];
+          $query = "SELECT * FROM Appointment WHERE registerNumber = '$registerNumber'";
+          $result = $conn->query($query);
 
-        if ($result->num_rows > 0) {
-          // Output table rows dynamically with fetched data
-          while ($row = $result->fetch_assoc()) {
-            $timeSlot = $row['appointment_time_slot'];
-            $speciality = $row['speciality'];
+          if ($result->num_rows > 0) {
+            // Output table rows dynamically with fetched data
+            while ($row = $result->fetch_assoc()) {
+              $timeSlot = $row['appointment_time_slot'];
+              $speciality = $row['speciality'];
 
-            // Query the appointment_slots table to get start and end times based on speciality and time slot
-            $slotsQuery = "SELECT * FROM appointment_slots WHERE speciality = '$speciality' AND slots = $timeSlot";
-            $slotsResult = $conn->query($slotsQuery);
+              // Query the appointment_slots table to get start and end times based on speciality and time slot
+              $slotsQuery = "SELECT * FROM appointment_slots WHERE speciality = '$speciality' AND slots = $timeSlot";
+              $slotsResult = $conn->query($slotsQuery);
 
-            if ($slotsResult->num_rows > 0) {
-              $slotRow = $slotsResult->fetch_assoc();
-              $startTime = $slotRow['start_time'];
-              $endTime = $slotRow['end_time'];
+              if ($slotsResult->num_rows > 0) {
+                $slotRow = $slotsResult->fetch_assoc();
+                $startTime = $slotRow['start_time'];
+                $endTime = $slotRow['end_time'];
 
-              // Output table row with fetched data
-              echo '<tr>';
-              echo '<td>' . $row['id'] . '</td>';
-              echo '<td>' . $row['registerNumber'] . '</td>';
-              echo '<td>' . $row['appointment_date'] . '</td>';
-              echo '<td>' . $row['speciality'] . '</td>';
-              echo '<td>' . $row['appointment_time_slot'] . '</td>';
-              echo '<td>' . $startTime . '</td>';
-              echo '<td>' . $endTime . '</td>';
-              echo '<td>' . $row['issue'] . '</td>';
-              echo '<td>' . $row['details'] . '</td>';
-              echo '<td>' . $row['status'] . '</td>';
-              echo '<td>' . $row['created_at'] . '</td>';
-              echo '<td>
-                        <button class="btn btn-danger" onclick="deleteBooking(' . $row['id'] . ')">Delete</button>
-                        <button class="btn btn-info" onclick="downloadBooking(' . $row['id'] . ')">Download</button>    
+                // Output table row with fetched data
+                echo '<tr>';
+                echo '<td>' . $row['id'] . '</td>';
+                echo '<td>' . $row['registerNumber'] . '</td>';
+                echo '<td>' . $row['appointment_date'] . '</td>';
+                echo '<td>' . $row['speciality'] . '</td>';
+                echo '<td>' . $row['appointment_time_slot'] . '</td>';
+                echo '<td>' . $startTime . '</td>';
+                echo '<td>' . $endTime . '</td>';
+                echo '<td>' . $row['issue'] . '</td>';
+                echo '<td>' . $row['details'] . '</td>';
+                echo '<td>' . $row['status'] . '</td>';
+                echo '<td>' . $row['created_at'] . '</td>';
+                echo '<td>
+                        <button class="btn btn-action" onclick="deleteBooking(' . $row['id'] . ')">
+                          <image alt="Delete" src="assets/images/utils/delete.png" />
+                        </button>
+                        <button class="btn btn-action" onclick="downloadBooking(' . $row['id'] . ')">
+                          <image alt="Dowlnoad" src="assets/images/utils/download.png" />
+                        </button>    
                     </td>';
-              echo '</tr>';
-            } else {
-              // Handle case where slot information is not found
-              // You can display a message or default values for start and end time
+                echo '</tr>';
+              } else {
+                // Handle case where slot information is not found
+                // You can display a message or default values for start and end time
+              }
             }
-          }
-        } else {
-          // Handle case where no bookings are found for the user
-          echo '
+          } else {
+            // Handle case where no bookings are found for the user
+            echo '
     <tr>
         <td colspan="11" class="text-danger text-center">
             <img src="https://cdni.iconscout.com/illustration/premium/thumb/schedule-appointment-4488748-3757143.png" alt="No Bookings" width="150">
@@ -180,11 +196,12 @@ if (!isset($_SESSION['registerNumber'])) {
             <a href="./schedule.php" class="btn btn-primary">Book Now</a>
         </td>
     </tr>';
-        }
-        ?>
+          }
+          ?>
 
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <script>
@@ -216,7 +233,7 @@ if (!isset($_SESSION['registerNumber'])) {
 
     function downloadBooking(bookingId) {
       // redirect to acknowledgement.php with the booking ID as a query parameter
-      window.location.href = 'acknowledgement.php?appointmentId=' + bookingId;
+      window.location.href = 'acknowledgement.php?appointmentId=' + bookingId + '&download=True';
     }
 
     function printReciept(bookingId) {

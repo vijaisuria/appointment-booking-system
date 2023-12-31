@@ -215,7 +215,7 @@ if (isset($_SESSION['registerNumber'])) {
                             data-bs-target="#loginGuide">
                             Having trouble logging in?
                             <span style="padding: 0; margin: 0">
-                                <img style="width: 20px; height: 20px" src="assets/images/help.png" alt="">
+                                <img style="width: 20px; height: 20px" src="assets/images/utils/help.png" alt="">
                             </span>
                         </p>
                         <input type="submit" value="Login" />
