@@ -25,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['selectedDate']) && iss
         }
 
         $options = [];
+        $options[] = "<option value=''>Select available time slot</option>";
         while ($slotRow = $availableSlotsResult->fetch_assoc()) {
             $slot = $slotRow['slots'];
             $startTime = $slotRow['start_time'];

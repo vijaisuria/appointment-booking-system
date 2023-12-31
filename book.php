@@ -188,7 +188,7 @@ if (!isset($_SESSION['registerNumber'])) {
         </div>
     </div>
     <div class="container form-container">
-        <form action="process_form.php" method="post">
+        <form action="actions/new_appointment.php" method="post">
             <h2 class="text-primary form-header">Doctor Appointment Booking</h2>
             <div class=" row">
                 <div class="form-group col-lg-6 col-12">
@@ -202,11 +202,13 @@ if (!isset($_SESSION['registerNumber'])) {
                 </div>
                 <div class="form-group col-lg-6 col-12">
                     <label>Communication Mail Id: </label>
-                    <input type="email" class="form-control mb-3" placeholder="Your maild id" value="">
+                    <input type="email" class="form-control mb-3" placeholder="Your maild id" name="email" id="email"
+                        value="">
                 </div>
                 <div class="form-group col-lg-6 col-12">
                     <label>Date of Appointment: </label>
-                    <input type="date" class="form-control mb-3" id="appointmentDate" placeholder="Date of Appointment">
+                    <input type="date" class="form-control mb-3" id="appointmentDate" name="appointmentDate"
+                        placeholder="Date of Appointment">
                 </div>
                 <div class="form-group col-lg-6 col-12">
                     <label for="speciality">Speciality: <span class="error">First select the date**</span></label>
@@ -214,58 +216,6 @@ if (!isset($_SESSION['registerNumber'])) {
                         <!-- Options will be dynamically loaded here -->
                     </select>
                 </div>
-                <div class="form-group col-lg-6 col-12">
-                    <button type="button" id="checkSlots" class="btn btn-success w-100 mt-4" style="height: 36px">Check
-                        Slots</button>
-                </div>
-
-                <!--
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="slot-card available">2.00 - 3.00</div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="slot-card not-available">3.00 - 4.00</div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="slot-card high-demand">4.00 - 5.00</div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="slot-card available">2.00 - 3.00</div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="slot-card not-available">3.00 - 4.00</div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="slot-card high-demand">4.00 - 5.00</div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="slot-card available">2.00 - 3.00</div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="slot-card not-available">3.00 - 4.00</div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="slot-card high-demand">4.00 - 5.00</div>
-                    </div>         
-            </div>
-    -->
-                <div class="form-group col-lg-6 col-12">
-                    <label for="appointmentTime">Select Time Slot:</label>
-                    <select class="form-control mb-3" id="appointmentTime" name="appointmentTime" required>
-                        <!-- Available time slots will be populated here -->
-                    </select>
-                </div>
-                <!--
-                <div class="form-group col-lg-6 col-12">
-                    <label for="issueType">Issue Type:</label>
-                    <select class="form-control mb-3" id="issueType" name="issueType" required>
-                        <option value="Consultation">Consultation</option>
-                        <option value="Procedure">Procedure</option>
-                    </select>
-                </div>
-                -->
                 <div class="form-group col-lg-6 col-12">
                     <label for="issueType">Service Required <span class="error">First select the
                             speciality**</span></label>
@@ -275,6 +225,19 @@ if (!isset($_SESSION['registerNumber'])) {
                         <!-- Add more issue type options here -->
                     </select>
                 </div>
+                <div class="form-group col-lg-6 col-12">
+                    <label for="appointmentTime">Select Time Slot:</label>
+                    <select class="form-control mb-3" id="appointmentTime" name="appointmentTime" required>
+                        <!-- Available time slots will be populated here -->
+                    </select>
+                </div>
+                <div class="form-group col-lg-6 col-12">
+                    <label for="details">Details</label>
+                    <select class="form-control mb-3" id="details" name="details" required>
+                        <option value="Consultation">Consultation</option>
+                        <option value="Procedure">Procedure</option>
+                    </select>
+                </div>
 
             </div>
             <p class="fs-6">Note: This appointment time is only applicable for consultations. Procedure and
@@ -282,8 +245,8 @@ if (!isset($_SESSION['registerNumber'])) {
                 may
                 differ. Priority will be given to booked patients and patients with emergencies.</p>
             <div class="mb-3 form-check">
-                <input type="checkbox" checked required class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">I accept the <a href="">terms and
+                <input type="checkbox" checked required class="form-check-input" id="terms-condt">
+                <label class="form-check-label" for="terms-condt">I accept the <a href="">terms and
                         conditions</a></label>
             </div>
             <button type="submit" class="btn btn-primary">Book Appointment</button>
@@ -298,7 +261,6 @@ if (!isset($_SESSION['registerNumber'])) {
         $(document).ready(function () {
             $('#appointmentDate').change(function () {
                 var selectedDate = $(this).val();
-                console.log(selectedDate);
 
                 $.ajax({
                     type: 'POST',
@@ -341,6 +303,44 @@ if (!isset($_SESSION['registerNumber'])) {
                 appointmentDateInput.value = ''; // Reset the value if it's a Sunday
             }
         });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#appointmentDate, #speciality').change(function () {
+                const registerNumber = $('#registerNumber').val();
+                const selectedDate = $('#appointmentDate').val();
+                const selectedSpeciality = $('#speciality').val();
+
+                // AJAX request to check for existing booking on the same day
+                $.ajax({
+                    type: 'POST',
+                    url: 'actions/check_existing_booking.php', // Update the URL to your PHP file for checking existing booking
+                    data: {
+                        registerNumber: registerNumber,
+                        selectedDate: selectedDate
+                    },
+                    success: function (response) {
+                        if (response === 'exists') {
+                            alert('You already have a booking on this day.');
+                        } else {
+                            // Proceed to fetch available time slots
+                            $.ajax({
+                                type: 'POST',
+                                url: 'actions/fetch_available_slots.php', // Update the URL to your PHP file for fetching available slots
+                                data: {
+                                    selectedDate: selectedDate,
+                                    selectedSpeciality: selectedSpeciality
+                                },
+                                success: function (slots) {
+                                    $('#appointmentTime').html(slots); // Populate available time slots
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+        });
+
     </script>
     <script>
         $(document).ready(function () {
