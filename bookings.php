@@ -160,7 +160,10 @@ if (!isset($_SESSION['registerNumber'])) {
               echo '<td>' . $row['details'] . '</td>';
               echo '<td>' . $row['status'] . '</td>';
               echo '<td>' . $row['created_at'] . '</td>';
-              echo '<td><button class="btn btn-danger" onclick="deleteBooking(' . $row['id'] . ')">Delete</button></td>';
+              echo '<td>
+                        <button class="btn btn-danger" onclick="deleteBooking(' . $row['id'] . ')">Delete</button>
+                        <button class="btn btn-info" onclick="downloadBooking(' . $row['id'] . ')">Download</button>    
+                    </td>';
               echo '</tr>';
             } else {
               // Handle case where slot information is not found
@@ -183,61 +186,7 @@ if (!isset($_SESSION['registerNumber'])) {
       </tbody>
     </table>
   </div>
-  <script>
-    async function fetchAndDisplayBookings() {
-      const response = await fetch(
-        `https://helth-center-api.onrender.com/api/appointment/user/${username}`
-      );
-      const data = await response.json();
-      const loadingSpinner = document.getElementById('css3-spinner-svg-pulse-wrapper');
-      const blurContainer = document.getElementById('blur-container');
 
-      loadingSpinner.style.display = 'none';
-      blurContainer.style.display = 'none';
-      const bookingsTableBody = document.getElementById(
-        "bookings-table-body"
-      );
-
-      data.forEach((booking) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-    <td>${booking.username}</td>
-    <td>${booking.email}</td>
-    <td>${getIndianTime(booking.date)}</td>
-    <td>${booking.speciality}</td>
-    <td>${booking.timeSlot}</td>
-    <td>${booking.startTime}</td>
-    <td>${booking.endTime}</td>
-    <td>${booking.reason}</td>
-    <td><button class="btn btn-danger" onclick="deleteBooking('${booking._id}')">Delete</button></td>
-  `;
-
-        bookingsTableBody.appendChild(row);
-      });
-
-      if (data.length === 0) {
-        bookingsTableBody.innerHTML = `
-    <tr>
-      <td colspan='9' class='text-danger text-center'>
-        <img src='https://cdni.iconscout.com/illustration/premium/thumb/schedule-appointment-4488748-3757143.png' alt='No Bookings' width='150'>
-        <p>No bookings found.</p>
-        <a href='./schedule.php' class='btn btn-primary'>Book Now</a>
-      </td>
-    </tr>
-  `;
-      }
-
-    }
-
-    const getIndianTime = (date) => {
-      const utcDate = new Date(date);
-      if (isNaN(utcDate)) return "";
-      const utcOffset = 5.5; // India's UTC offset is 5 hours and 30 minutes ahead of UTC.
-      const indianTime = new Date(utcDate.getTime() + utcOffset * 60 * 60 * 1000);
-      return indianTime.toISOString().slice(0, 10) + " " + indianTime.toLocaleTimeString();
-    };
-
-  </script>
   <script>
     function deleteBooking(bookingId) {
       if (confirm("Are you sure you want to delete this booking?")) {
@@ -265,6 +214,14 @@ if (!isset($_SESSION['registerNumber'])) {
       }
     }
 
+    function downloadBooking(bookingId) {
+      // redirect to acknowledgement.php with the booking ID as a query parameter
+      window.location.href = 'acknowledgement.php?appointmentId=' + bookingId;
+    }
+
+    function printReciept(bookingId) {
+      // print the acknowledgement page 'acknowledgement.php?appointmentId=' + bookingId;
+    }
   </script>
 
 </body>
