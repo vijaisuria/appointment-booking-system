@@ -35,7 +35,7 @@
             <a class="nav-link text-light" href="../home.php">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="../bookings.php">Appointments</a>
+            <a class="nav-link text-light" href="../booking-history.php">Appointments</a>
           </li>
           <li class="nav-item">
             <a class="nav-link text-light" href="#">Book</a>

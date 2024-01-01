@@ -38,7 +38,7 @@ if (!isset($_SESSION['registerNumber'])) {
           <div class="card-body">
             <h5 class="card-title"><i class="fas fa-calendar-check"></i> Appointments</h5>
             <p class="card-text">Manage your appointments and view upcoming ones.</p>
-            <a href="./bookings.php" class="btn btn-light">Go to Appointments</a>
+            <a href="./booking-history.php" class="btn btn-light">Go to Appointments</a>
           </div>
         </div>
       </div>
