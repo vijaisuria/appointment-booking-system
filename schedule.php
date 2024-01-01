@@ -66,7 +66,9 @@ if (!isset($_SESSION['registerNumber'])) {
             <td style="min-width: 7rem">
                 <span>' . $row['visit_start_time'] . ' - ' . $row['visit_end_time'] . '</span>
             </td>
-            <td><span class="badge bg-info p-2 fs-6" id="checkButton">Check</span></td>
+            <td>
+                <button class="btn btn-info" type="button" id="checkButton">Check</button>
+            </td>
             <td>
                 <button type="button" id="bookButton" class="btn btn-success">
                     Book
@@ -87,7 +89,7 @@ if (!isset($_SESSION['registerNumber'])) {
       window.location.href = 'book.php';
     });
     document.getElementById('checkButton').addEventListener('click', function () {
-      window.location.href = 'book.php';
+      window.location.href = 'check.php';
     });
   </script>
 </body>
