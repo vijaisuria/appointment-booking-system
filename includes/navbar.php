@@ -13,7 +13,7 @@
                     <a class="nav-link text-light" href="./home.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="./bookings.php">Appointments</a>
+                    <a class="nav-link text-light" href="./booking-history.php">Appointments</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-light" href="./schedule.php">Book</a>
@@ -24,10 +24,12 @@
                 <li class="nav-item">
                     <a class="nav-link text-light" href="./profile.php">Profile</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="./feedback.php">Feedback</a>
+                </li>
             </ul>
             <ul class="navbar-nav">
                 <?php
-                session_start();
                 if (isset($_SESSION['registerNumber'])) {
                     // If the user is logged in, show the Logout link
                     echo '
