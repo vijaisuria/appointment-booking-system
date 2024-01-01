@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $appointmentId = $conn->insert_id;
 
         // Redirect to acknowledgement.php with the appointment ID as a query parameter
-        header("Location: ../acknowledgement.php?appointmentId=$appointmentId");
+        header("Location: generate_acknowledgement.php?appointmentId=$appointmentId");
         exit;
     } else {
         echo "<script>alert('Error: Appointment booking failed.'); window.location.href = 'book.php';</script>";

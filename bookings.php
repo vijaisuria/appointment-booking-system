@@ -233,11 +233,7 @@ if (!isset($_SESSION['registerNumber'])) {
 
     function downloadBooking(bookingId) {
       // redirect to acknowledgement.php with the booking ID as a query parameter
-      window.location.href = 'acknowledgement.php?appointmentId=' + bookingId + '&download=True';
-    }
-
-    function printReciept(bookingId) {
-      // print the acknowledgement page 'acknowledgement.php?appointmentId=' + bookingId;
+      window.location.href = 'actions/generate_acknowledgement.php?appointmentId=' + bookingId + '&download=True';
     }
   </script>
 

@@ -8,7 +8,7 @@ if (!isset($_SESSION['registerNumber'])) {
 ?>
 <html>
 <?php
-include_once 'config/dbconnection.php';
+include_once '../config/dbconnection.php';
 if (isset($_GET['appointmentId'])) {
     $appointmentId = $_GET['appointmentId'];
     $appointmentQuery = "SELECT * FROM appointment WHERE id = $appointmentId";
@@ -69,7 +69,7 @@ if (isset($_GET['appointmentId'])) {
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="assets/css/acknowledgement.css">
+    <link rel="stylesheet" href="../assets/css/acknowledgement.css">
     <style>
         @media print {
             .receipt-main {
@@ -107,8 +107,8 @@ if (isset($_GET['appointmentId'])) {
             is also acceptable. Thank you for your cooperation.</p>
         <button class="btn btn-primary" onclick="printReciept()">
             Download
-            <img src="assets/images/utils/download.png" style="margin-left: 8px" class="p-4 m-4" width="30" height="30"
-                alt="">
+            <img src="../assets/images/utils/download.png" style="margin-left: 8px" class="p-4 m-4" width="30"
+                height="30" alt="">
         </button>
     </header>
     <div class="col-md-12">
@@ -119,7 +119,7 @@ if (isset($_GET['appointmentId'])) {
                     <div class="receipt-header">
                         <div class="col-xs-6 col-sm-6 col-md-6">
                             <div class="receipt-left">
-                                <img class="img-responsive" alt="mit-hc" src="assets/images/mit-hc-logo.png"
+                                <img class="img-responsive" alt="mit-hc" src="../assets/images/mit-hc-logo.png"
                                     style="width: 71px; border-radius: 43px;">
                             </div>
                         </div>
@@ -259,7 +259,7 @@ if (isset($_GET['appointmentId'])) {
                                 </td>
                                 <td>
                                     <img class="status" alt=<?php echo $status; ?>
-                                        src="assets/images/utils/<?php echo $status; ?>.png" height="50" />
+                                        src="../assets/images/utils/<?php echo $status; ?>.png" height="50" />
                                 </td>
                             </tr>
                         </tbody>
