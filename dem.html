@@ -130,38 +130,52 @@
 </head>
 
 <body>
-    <!-- Include jsPDF library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"
-        integrity="sha512-V/C9Axb8EEL4ix79ERIJmpRd6Mp1rWVSxa2PIBCdCxqhEsfCBWp/R0xJ4U495czhcuDWrGOFYo8+QI3lJ9DK5g=="
+    <textarea id="markdown-input"></textarea>
+    <button id="convert-button">Convert</button>
+    <div id="html-output"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.1/marked.min.js"
+        integrity="sha512-oSA0PdOBsyP4Cv5rIHOWhOr+H0ZPOE/L8UKaX33DjBFD+TrWOZZfewjg85Z7WhNPkQrHeTKOYSio/XM6FBPhWA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <button class="btn btn-info" onclick="downloadReceiptAsPDF()">Download Receipt</button>
-
     <script>
-        function downloadReceiptAsPDF() {
-            // URL of the receipt page
-            var receiptUrl = 'http://localhost/mithc-user/h.html'; // Update with your URL
+        const markdownInput = document.getElementById('markdown-input');
+        const convertButton = document.getElementById('convert-button');
+        const htmlOutput = document.getElementById('html-output');
 
-            // Fetch the receipt page content
-            fetch(receiptUrl)
-                .then(response => response.text())
-                .then(html => {
-                    // Create a new jsPDF instance
-                    window.jsPDF = window.jspdf.jsPDF;
-                    var pdf = new jsPDF();
+        convertButton.addEventListener('click', () => {
+            const markdownText = markdownInput.value;
+            const html = convertMarkdownToHTML(markdownText);
+            htmlOutput.innerHTML = html;
+        });
 
-                    // Convert the HTML content to PDF
-                    pdf.html(html, {
-                        callback: function (pdf) {
-                            // Save the PDF with a specific name
-                            pdf.save('appointment_receipt.pdf');
-                        }
-                    });
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+        function convertMarkdownToHTML(markdown) {
+            // Replace headers (h1, h2, h3, etc.)
+            markdown = markdown.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+            markdown = markdown.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+            markdown = markdown.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+            markdown = markdown.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
+            markdown = markdown.replace(/^##### (.+)$/gm, '<h5>$1</h5>');
+            markdown = markdown.replace(/^###### (.+)$/gm, '<h6>$1</h6>');
+
+            // Replace bold and italic
+            markdown = markdown.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            markdown = markdown.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+            // Replace unordered lists
+            markdown = markdown.replace(/^\s*-\s+(.+)$/gm, (match, p1) => `<li>${p1}</li>`);
+            markdown = `<ul>${markdown}</ul>`;
+
+            // Replace ordered lists
+            markdown = markdown.replace(/^\s*\d+\.\s+(.+)$/gm, (match, p1) => `<li>${p1}</li>`);
+            markdown = `<ol>${markdown}</ol>`;
+
+            // Replace paragraphs
+            markdown = markdown.replace(/^(?!<\/?(h[1-6]|ul|ol|li)>).*$/gm, (match) => `<p>${match}</p>`);
+
+            return markdown;
         }
+
     </script>
 
 </body>

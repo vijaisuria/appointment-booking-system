@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Health Centre Chatbot</title>
+    <link rel="stylesheet" href="bot.css">
+    <link rel="stylesheet" href="preloader.css">
+</head>
+
+<body>
+    <div class="preloader" id="preloader">Please hang on, while we processing you request...</div>
+    <div id="spinner-container">
+        <div id='css3-spinner-svg-pulse-wrapper'>
+            <svg id='css3-spinner-svg-pulse' version='1.2' height='210' width='550' xmlns='http://www.w3.org/2000/svg'
+                viewport='0 0 60 60' xmlns:xlink='http://www.w3.org/1999/xlink'>
+                <path id='css3-spinner-pulse' stroke='#DE6262' fill='none' stroke-width='2' stroke-linejoin='round'
+                    d='M0,90L250,90Q257,60 262,87T267,95 270,88 273,92t6,35 7,-60T290,127 297,107s2,-11 10,-10 1,1 8,-10T319,95c6,4 8,-6 10,-17s2,10 9,11h210' />
+            </svg>
+        </div>
+    </div>
+    <header>
+        <img src="../assets/images/mit-hc-logo.png" alt="College Health Centre Logo">
+        <h1>Ask us anything about your health!</h1>
+        <input type="text" placeholder="Search FAQs...">
+    </header>
+    <div class="chat-container">
+        <ul class="chat-history">
+        </ul>
+        <div class="message-box">
+            <form action="#"></form>
+            <input type="text" id="user-message" placeholder="Type your question...">
+            <input type="submit" id="send-button" />
+        </div>
+    </div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "@google/generative-ai": "https://esm.run/@google/generative-ai"
+            }
+        }
+    </script>
+
+    <script type="module">
+        const sendButton = document.getElementById("send-button");
+        const preloader = document.getElementById("preloader");
+        const spinner = document.getElementById("spinner-container");
+
+        import { GoogleGenerativeAI } from "@google/generative-ai";
+
+        const API_KEY = '.....';
+
+        // Access your API key (see "Set up your API key" above)
+        const genAI = new GoogleGenerativeAI(API_KEY);
+
+        async function submitQuery() {
+            sendButton.disabled = true; // Disable the send button during execution
+            preloader.style.display = "flex"; // Show the preloader
+            spinner.style.display = "flex";
+
+            const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
+            const prompt = document.getElementById("user-message").value;
+
+            const result = await model.generateContent(prompt);
+            const response = await result.response;
+            const text = response.text();
+            console.log(text);
+            const chatHistory = document.querySelector(".chat-history");
+            const li = document.createElement("li");
+            li.classList.add("user");
+            li.textContent = prompt;
+            chatHistory.appendChild(li);
+            const li2 = document.createElement("li");
+            li2.textContent = text;
+            chatHistory.appendChild(li2);
+            document.getElementById("user-message").value = "";
+
+            preloader.style.display = "none"; // Hide the preloader
+            spinner.style.display = "none";
+            sendButton.disabled = false; // Enable the send button after execution
+        }
+
+        sendButton.addEventListener("click", submitQuery);
+    </script>
+</body>
+
+</html>
