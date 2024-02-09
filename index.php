@@ -16,106 +16,109 @@ if (isset($_SESSION['registerNumber'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-        crossorigin="anonymous"></script>
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
+    </script>
     <style>
-        #css3-spinner-svg-pulse-wrapper {
-            display: none;
-            position: absolute;
-            overflow: hidden;
-            width: 260px;
-            height: 210px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: transparent;
-            animation: none;
-            -webkit-animation: none;
+    #css3-spinner-svg-pulse-wrapper {
+        display: none;
+        position: absolute;
+        overflow: hidden;
+        width: 260px;
+        height: 210px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: transparent;
+        animation: none;
+        -webkit-animation: none;
+    }
+
+    #css3-spinner-svg-pulse {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    #css3-spinner-pulse {
+        stroke-dasharray: 281;
+        -webkit-animation: dash 5s infinite linear forwards;
+    }
+
+    /*Animation*/
+    @-webkit-keyframes dash {
+        from {
+            stroke-dashoffset: 814;
         }
 
-        #css3-spinner-svg-pulse {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        to {
+            stroke-dashoffset: -814;
+        }
+    }
+
+    @keyframes dash {
+        from {
+            stroke-dashoffset: 814;
         }
 
-        #css3-spinner-pulse {
-            stroke-dasharray: 281;
-            -webkit-animation: dash 5s infinite linear forwards;
+        to {
+            stroke-dashoffset: -814;
         }
+    }
 
-        /*Animation*/
-        @-webkit-keyframes dash {
-            from {
-                stroke-dashoffset: 814;
-            }
+    #spinner-container {
+        background-color: rgba(0, 0, 0, 0.5);
+        position: relative;
+        z-index: 1000;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 
-            to {
-                stroke-dashoffset: -814;
-            }
-        }
+    .user {
+        position: relative;
+        z-index: 1;
+    }
 
-        @keyframes dash {
-            from {
-                stroke-dashoffset: 814;
-            }
+    section {
+        background-image: url('assets/images/mit-hc.jpg');
+        background-size: cover;
+        background-position: center;
+        width: 100%;
+        height: 100%;
+    }
 
-            to {
-                stroke-dashoffset: -814;
-            }
-        }
+    #blur-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        filter: blur(5px);
+        display: none;
+        z-index: 999;
+    }
 
-        #spinner-container {
-            background-color: rgba(0, 0, 0, 0.5);
-            position: relative;
-            z-index: 1000;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
+    .error-input {
+        border: 1px red solid !important;
+    }
 
-        .user {
-            position: relative;
-            z-index: 1;
-        }
+    .error-msg {
+        color: red !important;
+        font-size: 12px;
+    }
 
-        section {
-            background-image: url('assets/images/mit-hc.jpg');
-            background-size: cover;
-            background-position: center;
-            width: 100%;
-            height: 100%;
-        }
-
-        #blur-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            filter: blur(5px);
-            display: none;
-            z-index: 999;
-        }
-
-        .error-input {
-            border: 1px red solid !important;
-        }
-
-        .error-msg {
-            color: red !important;
-            font-size: 12px;
-        }
-
-        #err-pwd,
-        #err-reg {
-            display: none;
-        }
+    #err-pwd,
+    #err-reg {
+        display: none;
+    }
     </style>
     <script>
-        sessionStorage.clear();
+    const toggleForm = () => {
+        const container = document.querySelector('.container');
+        container.classList.toggle('active');
+    };
     </script>
 </head>
 
@@ -172,8 +175,7 @@ if (isset($_SESSION['registerNumber'])) {
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <!--  redirect to www.google.com-->
-                        <button type="button" class="btn btn-primary"
-                            onclick="window.location.href = 'https://health-center.vercel.app/register';'">Register</button>
+                        <button type="button" class="btn btn-primary" onclick=gotoRegisterPage()>Register</button>
                     </div>
                 </div>
             </div>
@@ -255,33 +257,28 @@ if (isset($_SESSION['registerNumber'])) {
 
 
     <script>
-        const toggleForm = () => {
-            const container = document.querySelector('.container');
-            container.classList.toggle('active');
-        };
+    function gotoRegisterPage() {
+        window.location.href = 'https://healthcare-self-pi.vercel.app/register';
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        var hasError = <?php echo (isset($_SESSION['alert'])) ? 'true' : 'false'; ?>;
 
-
-
-        document.addEventListener('DOMContentLoaded', function () {
-            var hasError = <?php echo (isset($_SESSION['alert'])) ? 'true' : 'false'; ?>;
-
-            if (hasError) {
-                const error = <?php echo $_SESSION['alert']; ?>;
-                if (error == '1') {
-                    document.getElementById('err-reg').style.display = 'block';
-                    document.getElementById('err-in-reg').classList.add('error-input');
-                }
-                else if (error == '2') {
-                    document.getElementById('err-in-pwd').classList.add('error-input');
-                    document.getElementById('err-pwd').style.display = 'block';
-                }
+        if (hasError) {
+            const error = <?php echo $_SESSION['alert']; ?>;
+            if (error == '1') {
+                document.getElementById('err-reg').style.display = 'block';
+                document.getElementById('err-in-reg').classList.add('error-input');
+            } else if (error == '2') {
+                document.getElementById('err-in-pwd').classList.add('error-input');
+                document.getElementById('err-pwd').style.display = 'block';
             }
-        });
+        }
+    });
     </script>
     <script>
-        document.getElementById('prescription').addEventListener('click', function (event) {
-            event.preventDefault();
-            <?php
+    document.getElementById('prescription').addEventListener('click', function(event) {
+        event.preventDefault();
+        <?php
             session_start();
             if (isset($_SESSION['registerNumber'])) {
                 echo 'window.open("https://health-center.vercel.app/student/prescriptions/' . $_SESSION['registerNumber'] . '", "_blank");';
@@ -292,7 +289,7 @@ if (isset($_SESSION['registerNumber'])) {
                 exit();
             }
             ?>
-        });
+    });
     </script>
     <?php
     unset($_SESSION['alert']);
